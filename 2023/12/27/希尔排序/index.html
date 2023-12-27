@@ -1,0 +1,178 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>希尔排序 | Migu'Blog|迷毂</title><meta name="author" content="migu"><meta name="copyright" content="migu"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="希尔排序实际上可以理解为插入排序的升级版，其中加入了折半的思想希尔排序思想：    希尔排序思想：    1.对待排序数组进行增量分组，其中每组的大小可以理解为增量(步长)    分组的规律应该是越分组越大，比如数组的长度是10，第一次除2后是5，第二次除2取整就是2，第三次就是1，最后不能小于等于0    得到的这个数，就是需要分多少组    2.每次分组后，对每组的数组进行排序（分为交换排序和">
+<meta property="og:type" content="article">
+<meta property="og:title" content="希尔排序">
+<meta property="og:url" content="https://migu316.github.io/2023/12/27/%E5%B8%8C%E5%B0%94%E6%8E%92%E5%BA%8F/index.html">
+<meta property="og:site_name" content="Migu&#39;Blog|迷毂">
+<meta property="og:description" content="希尔排序实际上可以理解为插入排序的升级版，其中加入了折半的思想希尔排序思想：    希尔排序思想：    1.对待排序数组进行增量分组，其中每组的大小可以理解为增量(步长)    分组的规律应该是越分组越大，比如数组的长度是10，第一次除2后是5，第二次除2取整就是2，第三次就是1，最后不能小于等于0    得到的这个数，就是需要分多少组    2.每次分组后，对每组的数组进行排序（分为交换排序和">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://lc-zp9lzzl0.cn-n1.lcfile.com/EgIh7nP97s2Iva0odX4lINSstzjXQGHa/favicon.png">
+<meta property="article:published_time" content="2023-12-27T13:44:45.000Z">
+<meta property="article:modified_time" content="2023-12-27T14:32:42.971Z">
+<meta property="article:author" content="migu">
+<meta property="article:tag" content="希尔排序">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://lc-zp9lzzl0.cn-n1.lcfile.com/EgIh7nP97s2Iva0odX4lINSstzjXQGHa/favicon.png"><link rel="shortcut icon" href="http://lc-zp9lZZL0.cn-n1.lcfile.com/EgIh7nP97s2Iva0odX4lINSstzjXQGHa/favicon.png"><link rel="canonical" href="https://migu316.github.io/2023/12/27/%E5%B8%8C%E5%B0%94%E6%8E%92%E5%BA%8F/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '希尔排序',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: false,
+  postUpdate: '2023-12-27 22:32:42'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><meta name="generator" content="Hexo 7.0.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="http://lc-zp9lZZL0.cn-n1.lcfile.com/EgIh7nP97s2Iva0odX4lINSstzjXQGHa/favicon.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">7</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">7</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">2</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 文章归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="not-top-img" id="page-header"><nav id="nav"><span id="blog-info"><a href="/" title="Migu'Blog|迷毂"><span class="site-name">Migu'Blog|迷毂</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 文章归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav></header><main class="layout" id="content-inner"><div id="post"><div id="post-info"><h1 class="post-title">希尔排序</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-12-27T13:44:45.000Z" title="发表于 2023-12-27 21:44:45">2023-12-27</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-12-27T14:32:42.971Z" title="更新于 2023-12-27 22:32:42">2023-12-27</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">1.9k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>6分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="希尔排序"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div><article class="post-content" id="article-container"><p>希尔排序实际上可以理解为插入排序的升级版，其中加入了折半的思想<br>希尔排序思想：<br>    希尔排序思想：<br>    1.对待排序数组进行增量分组，其中每组的大小可以理解为增量(步长)<br>    分组的规律应该是越分组越大，比如数组的长度是10，第一次除2后是5，第二次除2取整就是2，第三次就是1，最后不能小于等于0<br>    得到的这个数，就是需要分多少组<br>    2.每次分组后，对每组的数组进行排序（分为交换排序和移动排序） 实际上是进行直接插入排序，也就是说对每组的每个数都进行一次插入排序，而不是两两比较<br>    3.对于组包含的元素，不应该是邻近的元素，而是i+gap（步长）为一组的元素<br>    比如第一次分组10&#x2F;2&#x3D;5，每组2个元素，i取0的时候，下一个元素就是0+5，索引为5的元素</p>
+<p>位移法完整版:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">shellSort</span><span class="params">(<span class="type">int</span>[] arr)</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">temp</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">        <span class="comment">// 外层循环表示每次分组</span></span><br><span class="line">        <span class="comment">// 因为插入排序是需要从后往前依次排序，依次这里是i是从gap开始</span></span><br><span class="line">        <span class="comment">// 比如gap = 2的时候，i就是从下标2开始，因为0，1下标相当于是分割出来的两组数的首位，不需要进行比较</span></span><br><span class="line">        <span class="comment">// 因此我们分割完成后的第一次比较都是从当前组的第二位比较，与这组的前一位进行比较，0和2，1和3</span></span><br><span class="line">        <span class="comment">// 当i达到8的时候，那么就是6和8，4和6，2和4，0和2依次比较</span></span><br><span class="line">        <span class="comment">// 之所以i是递增的，因为这样可以依次对每组的每个数进行插入排序的比较</span></span><br><span class="line">        <span class="comment">// 第三个for循环就相当于是拿到了一个待插入值，让它与他这组前面的所有值进行比较，虽然一般的插入排序是从末尾开始拿元素</span></span><br><span class="line">        <span class="comment">// 但是插入排序实际上是给值寻找合适的位置</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">gap</span> <span class="operator">=</span> arr.length / <span class="number">2</span>; gap &gt; <span class="number">0</span>; gap /= <span class="number">2</span>) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> gap; i &lt; arr.length; i++) &#123;</span><br><span class="line">                <span class="comment">// 然后j就是0，那么就是比较0和5，之所以j -= gap是因为这样可以取到同一组的前一位</span></span><br><span class="line">                <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> i - gap; j &gt;= <span class="number">0</span>; j -= gap) &#123;</span><br><span class="line">                    <span class="comment">// arr[j]相当于是待插入数的前一位，只不过这里是针对分割后的同一组数,arr[j+gap]便是待插入数(仅针对于第一次交换的时候)</span></span><br><span class="line">                    <span class="comment">// 因为第一次说不定没交换，即使没交换，循环依然会继续，这样就导致了前面其实已经排好序了</span></span><br><span class="line">                    <span class="keyword">if</span> (arr[j] &gt; arr[j+gap]) &#123;</span><br><span class="line">                        temp = arr[j];</span><br><span class="line">                        arr[j] = arr[j+gap];</span><br><span class="line">                        arr[j+gap] = temp;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            System.out.println(Arrays.toString(arr));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>对我来说，希尔排序不是特别好理解，原因在于被这种位移式的说法误解，以为当我们分割了数组后，对每个数组的元素两两进行比较，互相只比较一次即可，类似于双指针。实际上并不是，当我们拿到一个数组的时候，比如说[1,3,0,9,7]，实际上在这里我们使用“<strong>直接插入排序</strong>”。</p>
+<p>但是需要注意的是，插入排序我们是有一个双表的概念，<strong>有序表</strong>和<strong>无序表</strong>，一般我们使用的直接插入排序是从后往前，比如说拿到无序表末尾的数，然后和有序表的末尾依次往前开始比较，直到遇到比他小的数，就表示找到了合适的位置进行插入。</p>
+<p> 而希尔排序中说的”<strong>直接插入排序</strong>“实际上是先默认当前分割数组的第一位是有序的，然后取得第二位和第一位开始比较。上面那个数组中，有序表是1，那么我们就取得第二位3，然后1和3比较，不需要交换，有序表长度增加。等到下一次取到0的时候，有序表实际上是[1,3]了，这个时候0就是先和3比较，然后交换，数组当前为[1,0,3]然后0和1比较，交换，数组为[0,1,3]，后面是数也是如此。<strong>因此这个直接插入排序取数的时候，是从无序表的第一位开始取的。一般的插入排序是从无序表的末尾开始取的</strong></p>
+<p>还有一点需要注意，在上面这个数组中，我们每次都是拿0和前面的依次比较，会让我们觉得是0依次和前面的比较，实际上不一定。比如数组[1,7]，这个时候我们拿9就去比较，当7和9比较后，没发生交换，下一次就是1和7比较了，这是和插入排序有所不同的地方。这也是使用交换式希尔排序的一个问题，因为1和7实际上在之前买的比较中已经比较过了，并且是一个有序表了，这就是重复比较了。所以，<strong>我认为实际上我们是通过移动索引，进行索引之间的比较</strong></p>
+<p>对于我的难点：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> gap; i &lt; arr.length; i++)</span><br></pre></td></tr></table></figure>
+
+<p>上面这个循环，实际上是依次取数组中的数，这里是不区分分割后的哪个数组的，因为会在下面的循环中进行区分。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> i - gap; j &gt;= <span class="number">0</span>; j -= gap)</span><br><span class="line">     <span class="keyword">if</span> (arr[j] &gt; arr[j+gap]) &#123;</span><br><span class="line">         temp = arr[j];</span><br><span class="line">         arr[j] = arr[j+gap];</span><br><span class="line">         arr[j+gap] = temp;</span><br><span class="line">     &#125;</span><br></pre></td></tr></table></figure>
+
+<p>在上面这个循环中，实际上不仅仅是实现了数组索引位移，还实现了区分不同数组之间的数，使得不会发生冲突。当 gap 为2的时候，如果 i 是2，那么 j 就是0，这个0实际上是某个分割后数组的首位，然后通过 arr[j+gap] 就拿到了首位的下一位，让他们之间进行比较。</p>
+<p>如果 i 移动到了8呢，那么 j 就是6，这个时候 arr[j+gap] 就是8，也就是 i 的值了（<strong>从这里可以看出，i 实际上就是待插入数，不过仅限于第三次循环的首次可以这样理解</strong>），然后6和8的元素进行比较之后，j -&#x3D; gap，移动到这个数组的前一位，就是4，此时4和6的元素进行比较，然后依次是2和4，0和2，比较完成，i继续移动</p>
+<p>其实难点就在于i是一位一位的移动的，可以每次都是不同的分割后的数组，需要知道如何取到同一数组的前一位。再就是为什么是j -&#x3D; gap 以及 int j &#x3D; i - gap是因为只有这样，取到的索引才是依次向前（也就是有序表的末尾到前）开始比较。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 这样也可以，j&gt;=gap会把边界限制到分割后的数组的第二位，不会超过，</span></span><br><span class="line"><span class="comment">// 也就是说不会到达数组的第一位去，因为如果到第一位了，就会因为j-gap导致越界</span></span><br><span class="line"><span class="keyword">for</span> (<span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> i; j &gt;= gap; j -= gap) &#123;</span><br><span class="line">    <span class="keyword">if</span> (arr[j] &lt; arr[j - gap]) &#123;</span><br><span class="line">        temp = arr[j];</span><br><span class="line">        arr[j] = arr[j - gap];</span><br><span class="line">        arr[j - gap] = temp;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></blockquote>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://migu316.github.io">migu</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://migu316.github.io/2023/12/27/%E5%B8%8C%E5%B0%94%E6%8E%92%E5%BA%8F/">https://migu316.github.io/2023/12/27/%E5%B8%8C%E5%B0%94%E6%8E%92%E5%BA%8F/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://migu316.github.io" target="_blank">Migu'Blog|迷毂</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E5%B8%8C%E5%B0%94%E6%8E%92%E5%BA%8F/">希尔排序</a></div><div class="post_share"><div class="social-share" data-image="http://lc-zp9lZZL0.cn-n1.lcfile.com/EgIh7nP97s2Iva0odX4lINSstzjXQGHa/favicon.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2023/12/26/%E6%8F%92%E5%85%A5%E6%8E%92%E5%BA%8F/" title="插入排序"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">插入排序</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="http://lc-zp9lZZL0.cn-n1.lcfile.com/EgIh7nP97s2Iva0odX4lINSstzjXQGHa/favicon.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">migu</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">7</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">7</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">2</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/migu316"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">迷毂的内容聚集地~</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/12/27/%E5%B8%8C%E5%B0%94%E6%8E%92%E5%BA%8F/" title="希尔排序">希尔排序</a><time datetime="2023-12-27T13:44:45.000Z" title="发表于 2023-12-27 21:44:45">2023-12-27</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/12/26/%E6%8F%92%E5%85%A5%E6%8E%92%E5%BA%8F/" title="插入排序">插入排序</a><time datetime="2023-12-26T13:58:16.000Z" title="发表于 2023-12-26 21:58:16">2023-12-26</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/12/26/%E9%80%89%E6%8B%A9%E6%8E%92%E5%BA%8F/" title="选择排序">选择排序</a><time datetime="2023-12-26T13:48:29.000Z" title="发表于 2023-12-26 21:48:29">2023-12-26</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/12/26/%E5%86%92%E6%B3%A1%E6%8E%92%E5%BA%8F%E5%AE%9E%E7%8E%B0%E5%8F%8A%E4%BC%98%E5%8C%96/" title="冒泡排序实现及优化">冒泡排序实现及优化</a><time datetime="2023-12-26T09:45:59.000Z" title="发表于 2023-12-26 17:45:59">2023-12-26</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/12/24/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95-%E6%8E%92%E5%88%97%E7%BB%84%E5%90%88/" title="Java实现迷宫全策略方法并求最短路径">Java实现迷宫全策略方法并求最短路径</a><time datetime="2023-12-24T14:29:29.252Z" title="发表于 2023-12-24 22:29:29">2023-12-24</time></div></div></div></div></div></div></main><footer id="footer" style="background: transparent"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By migu</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a><br/>
+<span><!--<img src="/img/icp.png" style="padding:0px;margin:0px;vertical-align:middle;">*--><img src="http://lc-zp9lZZL0.cn-n1.lcfile.com/Fr5gRilnGPnM3AgQaFMGISO6k3Y0e3zd/icp.png" style="padding:0px;margin:0px;vertical-align:middle;">
+<a href="http://www.beian.gov.cn/"  style="color:#ffffff;padding:0px;margin:0px;vertical-align:middle;" target="_blank">渝ICP备2021011273号-1</a>
+</span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
