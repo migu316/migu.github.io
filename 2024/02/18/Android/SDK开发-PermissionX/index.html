@@ -1,0 +1,187 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>SDK开发-PermissionX | Migu'Blog|迷毂</title><meta name="author" content="migu"><meta name="copyright" content="migu"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="只要是编写一个库提供给其他项目使用，都可以统称为SDK开发  PermissionX是一个处理运行时权限的库，可以直接调用request函数完成权限申请，无需重新编写模板代码 创建一个模块右击项目名即可，创建一个名为Library，包路径为com.permissionx.migudev的模块，之所以修改包路径是为了避免和别人的代码出现冲突  观察该模块的build.gradle.kts可以会发现">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SDK开发-PermissionX">
+<meta property="og:url" content="https://migu316.github.io/2024/02/18/Android/SDK%E5%BC%80%E5%8F%91-PermissionX/index.html">
+<meta property="og:site_name" content="Migu&#39;Blog|迷毂">
+<meta property="og:description" content="只要是编写一个库提供给其他项目使用，都可以统称为SDK开发  PermissionX是一个处理运行时权限的库，可以直接调用request函数完成权限申请，无需重新编写模板代码 创建一个模块右击项目名即可，创建一个名为Library，包路径为com.permissionx.migudev的模块，之所以修改包路径是为了避免和别人的代码出现冲突  观察该模块的build.gradle.kts可以会发现">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://lc-zp9lzzl0.cn-n1.lcfile.com/EgIh7nP97s2Iva0odX4lINSstzjXQGHa/favicon.png">
+<meta property="article:published_time" content="2024-02-18T14:26:28.000Z">
+<meta property="article:modified_time" content="2024-02-18T14:50:10.132Z">
+<meta property="article:author" content="migu">
+<meta property="article:tag" content="Android">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://lc-zp9lzzl0.cn-n1.lcfile.com/EgIh7nP97s2Iva0odX4lINSstzjXQGHa/favicon.png"><link rel="shortcut icon" href="http://lc-zp9lZZL0.cn-n1.lcfile.com/EgIh7nP97s2Iva0odX4lINSstzjXQGHa/favicon.png"><link rel="canonical" href="https://migu316.github.io/2024/02/18/Android/SDK%E5%BC%80%E5%8F%91-PermissionX/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'SDK开发-PermissionX',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-02-18 22:50:10'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><meta name="generator" content="Hexo 7.0.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="http://lc-zp9lZZL0.cn-n1.lcfile.com/EgIh7nP97s2Iva0odX4lINSstzjXQGHa/favicon.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">29</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">27</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">11</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 文章归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/HTML/%E7%85%A7%E7%89%87BootStrap/index.html"><i class="fa-fw fa fa-globe"></i><span> 潼南Bootstrap</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="not-top-img" id="page-header"><nav id="nav"><span id="blog-info"><a href="/" title="Migu'Blog|迷毂"><span class="site-name">Migu'Blog|迷毂</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 文章归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/HTML/%E7%85%A7%E7%89%87BootStrap/index.html"><i class="fa-fw fa fa-globe"></i><span> 潼南Bootstrap</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav></header><main class="layout" id="content-inner"><div id="post"><div id="post-info"><h1 class="post-title">SDK开发-PermissionX</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-02-18T14:26:28.000Z" title="发表于 2024-02-18 22:26:28">2024-02-18</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-02-18T14:50:10.132Z" title="更新于 2024-02-18 22:50:10">2024-02-18</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Android/">Android</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">1.3k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>4分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="SDK开发-PermissionX"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div><article class="post-content" id="article-container"><blockquote>
+<p>只要是编写一个库提供给其他项目使用，都可以统称为SDK开发</p>
+</blockquote>
+<p>PermissionX是一个处理运行时权限的库，可以直接调用<code>request</code>函数完成权限申请，无需重新编写模板代码</p>
+<h3 id="创建一个模块"><a href="#创建一个模块" class="headerlink" title="创建一个模块"></a>创建一个模块</h3><p>右击项目名即可，创建一个名为<code>Library</code>，包路径为<code>com.permissionx.migudev</code>的模块，之所以修改包路径是为了避免和别人的代码出现冲突</p>
+<p><img src="/../../images/SDK%E5%BC%80%E5%8F%91-PermissionX/image-20240218223100953.png" alt="image-20240218223100953"></p>
+<p>观察该模块的<code>build.gradle.kts</code>可以会发现它和app模块中的build.gradle文件有两个重要的区别：</p>
+<ul>
+<li>第一，这里头部引入的插件是 com.android.library，表示这是一个库模块，而app&#x2F;build.gradle文件头部引入的插件是 com.android.application，表示这是一个应用程序模块；</li>
+<li>第二，这里的defaultConfig闭包 中是不可以配置applicationId属性的，而app&#x2F;build.gradle中则必须配置这个属性，用于 作为应用程序的唯一标识。</li>
+</ul>
+<h3 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h3><p>由于运行时权限API的操作是有特定的上下文依赖的，一般需要在<code>activity</code>中接收<code>onRequestPermissionsResult</code>方法的回调，所以不能简单地将整个操作封装到一个独立的类中。当然，受此限制，也衍生出了一些特别的解 决方案，比如将运行时权限的操作封装到BaseActivity中，或者提供一个透明的Activity来 处理运行时权限等。</p>
+<p>这里我并不准备使用以上几种方案，而是准备使用另外一种业内普遍比较认可的小技巧来进行实现。之前所有申请运行时权限的操作都是在Activity中进行的， 事实上，Google在Fragment中也提供了一份相同的API，使得我们在Fragment中也能申请运 行时权限。</p>
+<p>Fragment并不像Activity那样必须有界面，我们完全可以向Activity中添加一个 隐藏的Fragment，然后在这个隐藏的Fragment中对运行时权限的API进行封装。这是一种非 常轻量级的做法，不用担心隐藏Fragment会对Activity的性能造成什么影响。</p>
+<h3 id="创建InvisibleFragment"><a href="#创建InvisibleFragment" class="headerlink" title="创建InvisibleFragment"></a>创建InvisibleFragment</h3><p>首先创建一个<code>InvisibleFragment</code>类，该类直接继承于<code>androidx.fragment.app.Fragment</code>，<code>requestNow</code>函数将被其他类调用，该函数将会申请权限，并将回调函数对象赋值给类变量，以便权限请求回调函数中使用</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.permissionx.library</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> android.content.pm.PackageManager</span><br><span class="line"><span class="keyword">import</span> androidx.fragment.app.Fragment</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">// 定义一个类型别名，用于简化权限回调函数的声明</span></span><br><span class="line"><span class="keyword">typealias</span> PermissionCallback = (<span class="built_in">Boolean</span>, List&lt;String&gt;) -&gt; <span class="built_in">Unit</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 定义 InvisibleFragment 类，继承自 Fragment</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">InvisibleFragment</span> : <span class="type">Fragment</span>() &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 声明一个回调函数变量，用于处理权限请求结果</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">var</span> callback: PermissionCallback? = <span class="literal">null</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 发起权限请求的方法</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> cb 权限请求回调函数</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> permissions 请求的权限列表</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">requestNow</span><span class="params">(cb: <span class="type">PermissionCallback</span>, <span class="keyword">vararg</span> permissions: <span class="type">String</span>)</span></span> &#123;</span><br><span class="line">        <span class="comment">// 将传入的回调函数赋值给类变量</span></span><br><span class="line">        callback = cb</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 调用系统的请求权限方法</span></span><br><span class="line">        requestPermissions(permissions, <span class="number">1</span>)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 处理权限请求结果的方法</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> requestCode 请求码，用于标识请求的来源</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> permissions 请求的权限列表</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> grantResults 请求结果数组，包含相应权限的授权结果</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onRequestPermissionsResult</span><span class="params">(</span></span></span><br><span class="line"><span class="params"><span class="function">        requestCode: <span class="type">Int</span>,</span></span></span><br><span class="line"><span class="params"><span class="function">        permissions: <span class="type">Array</span>&lt;<span class="type">out</span> <span class="type">String</span>&gt;,</span></span></span><br><span class="line"><span class="params"><span class="function">        grantResults: <span class="type">IntArray</span></span></span></span><br><span class="line"><span class="params"><span class="function">    )</span></span> &#123;</span><br><span class="line">        <span class="comment">// 判断请求码是否匹配</span></span><br><span class="line">        <span class="keyword">if</span> (requestCode == <span class="number">1</span>) &#123;</span><br><span class="line">            <span class="comment">// 初始化一个用于存储被拒绝的权限的列表</span></span><br><span class="line">            <span class="keyword">val</span> deniedList = ArrayList&lt;String&gt;()</span><br><span class="line"></span><br><span class="line">            <span class="comment">// 遍历权限结果数组，检查每个权限的授权状态</span></span><br><span class="line">            <span class="keyword">for</span> ((index, result) <span class="keyword">in</span> grantResults.withIndex()) &#123;</span><br><span class="line">                <span class="keyword">if</span> (result != PackageManager.PERMISSION_GRANTED) &#123;</span><br><span class="line">                    <span class="comment">// 如果权限未被授权，则将其加入被拒绝的权限列表</span></span><br><span class="line">                    deniedList.add(permissions[index])</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="comment">// 判断是否所有权限都被授权</span></span><br><span class="line">            <span class="keyword">val</span> allGranted = deniedList.isEmpty()</span><br><span class="line"></span><br><span class="line">            <span class="comment">// 调用回调函数处理权限请求结果</span></span><br><span class="line">            callback?.let &#123;</span><br><span class="line">                it(allGranted, deniedList)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="创建对外接口类PermissionX"><a href="#创建对外接口类PermissionX" class="headerlink" title="创建对外接口类PermissionX"></a>创建对外接口类PermissionX</h3><p>该类中提供了一个<code>request</code>函数，该函数将用于生成一个不可见的<code>InvisibleFragment</code>，并调用其<code>requestNow</code>函数申请权限</p>
+<p>注意，<code>fragment.requestNow(callback, *permission)</code>中的<code>*permission</code>并不是指针，而是将数组转换成可变长度参数进行传递</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">package com.permissionx.library</span><br><span class="line"></span><br><span class="line">import androidx.fragment.app.FragmentActivity</span><br><span class="line"></span><br><span class="line">// 定义一个单例对象 PermissionX</span><br><span class="line">object PermissionX &#123;</span><br><span class="line"></span><br><span class="line">    // 声明一个常量 TAG，用于日志输出和查找 Fragment</span><br><span class="line">    private const val TAG = &quot;InvisibleFragment&quot;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 请求权限的入口方法</span><br><span class="line">     *</span><br><span class="line">     * @param activity 请求权限的活动</span><br><span class="line">     * @param permission 权限列表</span><br><span class="line">     * @param callback 权限请求回调接口</span><br><span class="line">     */</span><br><span class="line">    fun request(</span><br><span class="line">        activity: FragmentActivity,</span><br><span class="line">        vararg permission: String,</span><br><span class="line">        callback: PermissionCallback</span><br><span class="line">    ) &#123;</span><br><span class="line">        // 获取 FragmentManager 实例</span><br><span class="line">        val fragmentManager = activity.supportFragmentManager</span><br><span class="line"></span><br><span class="line">        // 通过 TAG 查找已存在的 InvisibleFragment</span><br><span class="line">        val existedFragment = fragmentManager.findFragmentByTag(TAG)</span><br><span class="line"></span><br><span class="line">        // 根据查找结果，决定是使用已存在的 Fragment 还是创建新的 InvisibleFragment</span><br><span class="line">        val fragment =</span><br><span class="line">            if (existedFragment != null) &#123;</span><br><span class="line">                // 如果已存在，将查找到的 Fragment 转换为 InvisibleFragment 类型</span><br><span class="line">                existedFragment as InvisibleFragment</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">                // 如果不存在，创建新的 InvisibleFragment 实例并添加到 FragmentManager</span><br><span class="line">                val invisibleFragment = InvisibleFragment()</span><br><span class="line">                fragmentManager.beginTransaction().add(invisibleFragment, TAG).commitNow()</span><br><span class="line">                invisibleFragment</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        // 调用 InvisibleFragment 中的请求权限方法</span><br><span class="line">        fragment.requestNow(callback, *permission)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h3><p>我们需要在<code>app</code>模块中进行引入</p>
+<p>编辑<code>build.gradle.kts(:app)</code>，添加</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">implementation(project(<span class="string">&quot;:Library&quot;</span>))</span><br></pre></td></tr></table></figure>
+
+<p>此时就可以调用了</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">PermissionX.request(</span><br><span class="line">    <span class="keyword">this</span>,</span><br><span class="line">    Manifest.permission.CALL_PHONE,</span><br><span class="line">    Manifest.permission.WRITE_EXTERNAL_STORAGE,</span><br><span class="line">    Manifest.permission.READ_CONTACTS</span><br><span class="line">) &#123; allGranted, deniedList -&gt;</span><br><span class="line">    <span class="keyword">if</span> (allGranted) &#123;</span><br><span class="line">        call()</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        Toast.makeText(<span class="keyword">this</span>, <span class="string">&quot;权限拒绝&quot;</span>, Toast.LENGTH_SHORT).show()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://migu316.github.io">migu</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://migu316.github.io/2024/02/18/Android/SDK%E5%BC%80%E5%8F%91-PermissionX/">https://migu316.github.io/2024/02/18/Android/SDK%E5%BC%80%E5%8F%91-PermissionX/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://migu316.github.io" target="_blank">Migu'Blog|迷毂</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Android/">Android</a></div><div class="post_share"><div class="social-share" data-image="http://lc-zp9lZZL0.cn-n1.lcfile.com/EgIh7nP97s2Iva0odX4lINSstzjXQGHa/favicon.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2024/02/18/Android/Android%E4%BD%BF%E7%94%A8Gradle%E6%89%93%E5%8C%85/" title="Android使用Gradle打包"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Android使用Gradle打包</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2024/01/09/Android/Android%E7%96%91%E9%9A%BE%E6%9D%82%E7%97%87/" title="Android疑难杂症"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-01-09</div><div class="title">Android疑难杂症</div></div></a></div><div><a href="/2024/01/11/Android/Android%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E7%82%B9/" title="Android基础知识点"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-01-11</div><div class="title">Android基础知识点</div></div></a></div><div><a href="/2024/01/09/Android/JetPack/" title="JetPack部分使用心得"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-01-09</div><div class="title">JetPack部分使用心得</div></div></a></div><div><a href="/2024/02/18/Android/Android%E4%BD%BF%E7%94%A8Gradle%E6%89%93%E5%8C%85/" title="Android使用Gradle打包"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-02-18</div><div class="title">Android使用Gradle打包</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="http://lc-zp9lZZL0.cn-n1.lcfile.com/EgIh7nP97s2Iva0odX4lINSstzjXQGHa/favicon.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">migu</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">29</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">27</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">11</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/migu316"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">他或许能成为一个Android开发工程师~</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA%E6%A8%A1%E5%9D%97"><span class="toc-number">1.</span> <span class="toc-text">创建一个模块</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E6%9E%90"><span class="toc-number">2.</span> <span class="toc-text">分析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9B%E5%BB%BAInvisibleFragment"><span class="toc-number">3.</span> <span class="toc-text">创建InvisibleFragment</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E5%AF%B9%E5%A4%96%E6%8E%A5%E5%8F%A3%E7%B1%BBPermissionX"><span class="toc-number">4.</span> <span class="toc-text">创建对外接口类PermissionX</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95"><span class="toc-number">5.</span> <span class="toc-text">测试</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/02/18/Android/SDK%E5%BC%80%E5%8F%91-PermissionX/" title="SDK开发-PermissionX">SDK开发-PermissionX</a><time datetime="2024-02-18T14:26:28.000Z" title="发表于 2024-02-18 22:26:28">2024-02-18</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/02/18/Android/Android%E4%BD%BF%E7%94%A8Gradle%E6%89%93%E5%8C%85/" title="Android使用Gradle打包">Android使用Gradle打包</a><time datetime="2024-02-18T10:26:21.000Z" title="发表于 2024-02-18 18:26:21">2024-02-18</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/01/24/Git/Git%E7%9A%84%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/" title="Git的简单使用">Git的简单使用</a><time datetime="2024-01-24T13:28:08.000Z" title="发表于 2024-01-24 21:28:08">2024-01-24</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/01/20/%E5%B9%B3%E8%A1%A1%E4%BA%8C%E5%8F%89%E6%A0%91AVL/" title="平衡二叉树AVL">平衡二叉树AVL</a><time datetime="2024-01-20T12:20:25.000Z" title="发表于 2024-01-20 20:20:25">2024-01-20</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/01/17/Git/git%E6%8E%A8%E9%80%81%E6%98%BE%E7%A4%BA%E8%B6%85%E6%97%B6%EF%BC%8C22%E7%AB%AF%E5%8F%A3/" title="git推送显示超时，22端口">git推送显示超时，22端口</a><time datetime="2024-01-17T09:58:11.000Z" title="发表于 2024-01-17 17:58:11">2024-01-17</time></div></div></div></div></div></div></main><footer id="footer" style="background: transparent"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2024 By migu</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a><br/>
+<span><!--<img src="/img/icp.png" style="padding:0px;margin:0px;vertical-align:middle;">*--><img src="http://lc-zp9lZZL0.cn-n1.lcfile.com/Fr5gRilnGPnM3AgQaFMGISO6k3Y0e3zd/icp.png" style="padding:0px;margin:0px;vertical-align:middle;">
+<a href="http://www.beian.gov.cn/"  style="color:#ffffff;padding:0px;margin:0px;vertical-align:middle;" target="_blank">渝ICP备2021011273号-1</a>
+</span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
