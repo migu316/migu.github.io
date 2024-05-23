@@ -1,0 +1,181 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Android开发艺术探索-笔记 | 迷毂的学习笔记</title><meta name="author" content="migu"><meta name="copyright" content="migu"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="Activity的生命周期和启动模式典型情况下的生命周期 Activity A打开Activity B，B的onResume和A的onPause哪个先执行？  AMS中维护着一个ActivityStack，在ActivityStack中的resumeTopActivityInnerLocked方法中，有如下一段代码  我们可以从上面的代码中发现，在新的活动启动前，栈顶的活动需要先onPause后，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android开发艺术探索-笔记">
+<meta property="og:url" content="https://migu316.github.io/2024/05/23/Android/Android%E5%BC%80%E5%8F%91%E8%89%BA%E6%9C%AF%E6%8E%A2%E7%B4%A2-%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="迷毂的学习笔记">
+<meta property="og:description" content="Activity的生命周期和启动模式典型情况下的生命周期 Activity A打开Activity B，B的onResume和A的onPause哪个先执行？  AMS中维护着一个ActivityStack，在ActivityStack中的resumeTopActivityInnerLocked方法中，有如下一段代码  我们可以从上面的代码中发现，在新的活动启动前，栈顶的活动需要先onPause后，">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://lc-zp9lzzl0.cn-n1.lcfile.com/EgIh7nP97s2Iva0odX4lINSstzjXQGHa/favicon.png">
+<meta property="article:published_time" content="2024-05-23T14:14:14.000Z">
+<meta property="article:modified_time" content="2024-05-23T15:08:02.216Z">
+<meta property="article:author" content="migu">
+<meta property="article:tag" content="Android">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://lc-zp9lzzl0.cn-n1.lcfile.com/EgIh7nP97s2Iva0odX4lINSstzjXQGHa/favicon.png"><link rel="shortcut icon" href="http://lc-zp9lZZL0.cn-n1.lcfile.com/EgIh7nP97s2Iva0odX4lINSstzjXQGHa/favicon.png"><link rel="canonical" href="https://migu316.github.io/2024/05/23/Android/Android%E5%BC%80%E5%8F%91%E8%89%BA%E6%9C%AF%E6%8E%A2%E7%B4%A2-%E7%AC%94%E8%AE%B0/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Android开发艺术探索-笔记',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-05-23 23:08:02'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><meta name="generator" content="Hexo 7.0.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="http://lc-zp9lZZL0.cn-n1.lcfile.com/EgIh7nP97s2Iva0odX4lINSstzjXQGHa/favicon.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">48</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">28</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">11</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 文章归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/HTML/%E7%85%A7%E7%89%87BootStrap/LinkYou.html"><i class="fa-fw fa fa-globe"></i><span> LinkYou</span></a></div><div class="menus_item"><a class="site-page" href="/HTML/%E7%85%A7%E7%89%87BootStrap/index.html"><i class="fa-fw fa fa-globe"></i><span> 潼南Bootstrap</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="not-top-img" id="page-header"><nav id="nav"><span id="blog-info"><a href="/" title="迷毂的学习笔记"><span class="site-name">迷毂的学习笔记</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 文章归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/HTML/%E7%85%A7%E7%89%87BootStrap/LinkYou.html"><i class="fa-fw fa fa-globe"></i><span> LinkYou</span></a></div><div class="menus_item"><a class="site-page" href="/HTML/%E7%85%A7%E7%89%87BootStrap/index.html"><i class="fa-fw fa fa-globe"></i><span> 潼南Bootstrap</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav></header><main class="layout" id="content-inner"><div id="post"><div id="post-info"><h1 class="post-title">Android开发艺术探索-笔记</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-05-23T14:14:14.000Z" title="发表于 2024-05-23 22:14:14">2024-05-23</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-05-23T15:08:02.216Z" title="更新于 2024-05-23 23:08:02">2024-05-23</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Android/">Android</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">590</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>2分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Android开发艺术探索-笔记"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div><article class="post-content" id="article-container"><h1 id="Activity的生命周期和启动模式"><a href="#Activity的生命周期和启动模式" class="headerlink" title="Activity的生命周期和启动模式"></a>Activity的生命周期和启动模式</h1><h2 id="典型情况下的生命周期"><a href="#典型情况下的生命周期" class="headerlink" title="典型情况下的生命周期"></a>典型情况下的生命周期</h2><ol>
+<li><p><strong>Activity A打开Activity B，B的onResume和A的onPause哪个先执行？</strong></p>
+<blockquote>
+<p>AMS中维护着一个ActivityStack，在ActivityStack中的resumeTopActivityInnerLocked方法中，有如下一段代码</p>
+<p><img src="/../../images/Android%E5%BC%80%E5%8F%91%E8%89%BA%E6%9C%AF%E6%8E%A2%E7%B4%A2-%E7%AC%94%E8%AE%B0/image-20240523221801769.png" alt="image-20240523221801769"></p>
+<p>我们可以从上面的代码中发现，在新的活动启动前，栈顶的活动需要先onPause后，新的活动才可以启动。</p>
+<p>然后ActiivtyStackSupervisor中realStartActivityLocked方法会调用下面的代码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">boolean</span> <span class="title function_">realStartActivityLocked</span><span class="params">(ActivityRecord r, WindowProcessController proc, <span class="type">boolean</span> andResume, <span class="type">boolean</span> checkConfig)</span> &#123;</span><br><span class="line">    ...</span><br><span class="line">    <span class="keyword">if</span> (prev != <span class="literal">null</span>) &#123;</span><br><span class="line">        <span class="comment">// Pause the previous activity</span></span><br><span class="line">        mService.getLifecycleManager().scheduleTransaction(prev.app.getThread(),</span><br><span class="line">            prev.appToken, PauseActivityItem.obtain(prev.finishing, userLeaving,</span><br><span class="line">                prev.configChangeFlags, pauseImmediately));</span><br><span class="line">        ...</span><br><span class="line">    &#125;</span><br><span class="line">    ...</span><br><span class="line">    <span class="comment">// Start the new activity</span></span><br><span class="line">    app.thread.scheduleLaunchActivity(<span class="keyword">new</span> <span class="title class_">Intent</span>(r.intent), r.appToken,</span><br><span class="line">        System.identityHashCode(r), r.info,</span><br><span class="line">        <span class="keyword">new</span> <span class="title class_">Configuration</span>(mService.mConfiguration), r.compat, r.task.voiceInteractor,</span><br><span class="line">        app.repProcState, r.icicle, r.persistentState, results, newIntents,</span><br><span class="line">        !andResume, mService.isNextTransitionForward(), profilerInfo);</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上面的app.thread类型为IApplicationThread，其具体实现为ApplicationThread（**<code>ActivityThread</code>类是Android应用程序主线程的实际实现类，负责管理应用程序的主线程并处理所有的主线程任务<strong>），实际上是调用了ApplicationThread的scheduleLaunchActivity方法，该方法会完成新Activity的</strong>onCreate** <strong>onStart</strong> <strong>onResume</strong>的调用过程</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">scheduleLaunchActivity</span><span class="params">(Intent intent, IBinder token, <span class="type">int</span> ident, ActivityInfo info,</span></span><br><span class="line"><span class="params">        Configuration curConfig, CompatibilityInfo compatInfo, IVoiceInteractor voiceInteractor, <span class="type">int</span> procState, Bundle state,</span></span><br><span class="line"><span class="params">        PersistableBundle persistentState, List&lt;ResultInfo&gt; pendingResults,</span></span><br><span class="line"><span class="params">        List&lt;ReferrerIntent&gt; pendingNewIntents, <span class="type">boolean</span> notResumed, <span class="type">boolean</span> isForward, ProfilerInfo profilerInfo)</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="type">ActivityClientRecord</span> <span class="variable">r</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ActivityClientRecord</span>();</span><br><span class="line">    r.token = token;</span><br><span class="line">    r.ident = ident;</span><br><span class="line">    r.intent = intent;</span><br><span class="line">    r.activityInfo = info;</span><br><span class="line">    r.compatInfo = compatInfo;</span><br><span class="line">    r.voiceInteractor = voiceInteractor;</span><br><span class="line">    r.state = state;</span><br><span class="line">    r.persistentState = persistentState;</span><br><span class="line">    r.pendingResults = pendingResults;</span><br><span class="line">    r.pendingIntents = pendingNewIntents;</span><br><span class="line">    r.startsNotResumed = notResumed;</span><br><span class="line">    r.isForward = isForward;</span><br><span class="line">    r.profilerInfo = profilerInfo;</span><br><span class="line"></span><br><span class="line">    updatePendingConfiguration(curConfig);</span><br><span class="line">    <span class="comment">// 通过发送到主线程的消息队列中进行启动</span></span><br><span class="line">    sendMessage(H.LAUNCH_ACTIVITY, r);</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>最后会通过handler执行到handleLaunchActivity方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">handleLaunchActivity</span><span class="params">(ActivityClientRecord r, Intent customIntent)</span> &#123;</span><br><span class="line">    <span class="comment">// If we are getting ready to gc after going to the background, well</span></span><br><span class="line">    <span class="comment">// we are back active so skip it.</span></span><br><span class="line">    unscheduleGcIdler();</span><br><span class="line">    mSomeActivitiesChanged = <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (r.profilerInfo != <span class="literal">null</span>) &#123;</span><br><span class="line">        mProfiler.setProfiler(r.profilerInfo);</span><br><span class="line">        mProfiler.startProfiling();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Make sure we are running with the most recent config.</span></span><br><span class="line">    handleConfigurationChanged(<span class="literal">null</span>, <span class="literal">null</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (localLOGV) Slog.v(</span><br><span class="line">        TAG, <span class="string">&quot;Handling launch of &quot;</span> + r);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 这里新Activity被创建出来，其onCreate和onStart会被调用</span></span><br><span class="line">    <span class="type">Activity</span> <span class="variable">a</span> <span class="operator">=</span> performLaunchActivity(r, customIntent);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (a != <span class="literal">null</span>) &#123;</span><br><span class="line">        r.createdConfig = <span class="keyword">new</span> <span class="title class_">Configuration</span>(mConfiguration);</span><br><span class="line">        <span class="type">Bundle</span> <span class="variable">oldState</span> <span class="operator">=</span> r.state;</span><br><span class="line">        <span class="comment">// 这里新Activity的onResume会被调用</span></span><br><span class="line">        handleResumeActivity(r.token, <span class="literal">false</span>, r.isForward, !r.startsNotResumed &amp;&amp; !r.activity.mFinished);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 省略部分代码</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>从另外一个角度来说，Android官方文档对onPause的解释有这么一句：不能在onPause上做重量级的操作，因为必须onPause执行完成后，新activity才能Resume，这也间接的证明了上面的结论</p>
+</li>
+</ol>
+<h2 id="异常情况下的生命周期"><a href="#异常情况下的生命周期" class="headerlink" title="异常情况下的生命周期"></a>异常情况下的生命周期</h2></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://migu316.github.io">migu</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://migu316.github.io/2024/05/23/Android/Android%E5%BC%80%E5%8F%91%E8%89%BA%E6%9C%AF%E6%8E%A2%E7%B4%A2-%E7%AC%94%E8%AE%B0/">https://migu316.github.io/2024/05/23/Android/Android%E5%BC%80%E5%8F%91%E8%89%BA%E6%9C%AF%E6%8E%A2%E7%B4%A2-%E7%AC%94%E8%AE%B0/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://migu316.github.io" target="_blank">迷毂的学习笔记</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Android/">Android</a></div><div class="post_share"><div class="social-share" data-image="http://lc-zp9lZZL0.cn-n1.lcfile.com/EgIh7nP97s2Iva0odX4lINSstzjXQGHa/favicon.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2024/05/14/Android/%E8%87%AA%E5%AE%9A%E4%B9%89View-%E7%BB%98%E5%88%B6/" title="自定义View-绘制"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">自定义View-绘制</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2024/01/09/Android/Android%E7%96%91%E9%9A%BE%E6%9D%82%E7%97%87/" title="Android疑难杂症"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-01-09</div><div class="title">Android疑难杂症</div></div></a></div><div><a href="/2024/01/11/Android/Android%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E7%82%B9/" title="Android基础知识点"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-01-11</div><div class="title">Android基础知识点</div></div></a></div><div><a href="/2024/01/09/Android/JetPack/" title="JetPack部分使用心得"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-01-09</div><div class="title">JetPack部分使用心得</div></div></a></div><div><a href="/2024/02/18/Android/Android%E4%BD%BF%E7%94%A8Gradle%E6%89%93%E5%8C%85/" title="Android使用Gradle打包"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-02-18</div><div class="title">Android使用Gradle打包</div></div></a></div><div><a href="/2024/02/18/Android/SDK%E5%BC%80%E5%8F%91-PermissionX/" title="SDK开发-PermissionX"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-02-18</div><div class="title">SDK开发-PermissionX</div></div></a></div><div><a href="/2024/02/20/Android/UI/" title="UI"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-02-20</div><div class="title">UI</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="http://lc-zp9lZZL0.cn-n1.lcfile.com/EgIh7nP97s2Iva0odX4lINSstzjXQGHa/favicon.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">migu</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">48</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">28</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">11</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/migu316"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">无~</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Activity%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E5%92%8C%E5%90%AF%E5%8A%A8%E6%A8%A1%E5%BC%8F"><span class="toc-number">1.</span> <span class="toc-text">Activity的生命周期和启动模式</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B8%E5%9E%8B%E6%83%85%E5%86%B5%E4%B8%8B%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F"><span class="toc-number">1.1.</span> <span class="toc-text">典型情况下的生命周期</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%82%E5%B8%B8%E6%83%85%E5%86%B5%E4%B8%8B%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F"><span class="toc-number">1.2.</span> <span class="toc-text">异常情况下的生命周期</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/05/23/Android/Android%E5%BC%80%E5%8F%91%E8%89%BA%E6%9C%AF%E6%8E%A2%E7%B4%A2-%E7%AC%94%E8%AE%B0/" title="Android开发艺术探索-笔记">Android开发艺术探索-笔记</a><time datetime="2024-05-23T14:14:14.000Z" title="发表于 2024-05-23 22:14:14">2024-05-23</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/05/14/Android/%E8%87%AA%E5%AE%9A%E4%B9%89View-%E7%BB%98%E5%88%B6/" title="自定义View-绘制">自定义View-绘制</a><time datetime="2024-05-14T13:55:46.000Z" title="发表于 2024-05-14 21:55:46">2024-05-14</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/05/10/Android/%E4%BA%86%E8%A7%A3%E5%8D%8F%E7%A8%8B/" title="了解协程">了解协程</a><time datetime="2024-05-10T09:02:55.000Z" title="发表于 2024-05-10 17:02:55">2024-05-10</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/05/09/Android/%E7%90%86%E8%A7%A3%E5%90%AF%E5%8A%A8%E6%A8%A1%E5%BC%8F%E5%92%8CtaskAffinity%E4%B9%8B%E9%97%B4%E7%9A%84%E5%85%B3%E8%81%94/" title="理解启动模式和taskAffinity之间的关联（草稿）">理解启动模式和taskAffinity之间的关联（草稿）</a><time datetime="2024-05-08T16:30:02.000Z" title="发表于 2024-05-09 00:30:02">2024-05-09</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/05/08/Android/parcelable%E5%92%8Cserializable%E7%9A%84%E9%80%89%E6%8B%A9/" title="parcelable和serializable的选择">parcelable和serializable的选择</a><time datetime="2024-05-08T13:32:32.000Z" title="发表于 2024-05-08 21:32:32">2024-05-08</time></div></div></div></div></div></div></main><footer id="footer" style="background: transparent"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2024 By migu</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a><br/>
+<span><!--<img src="/img/icp.png" style="padding:0px;margin:0px;vertical-align:middle;">*--><img src="http://lc-zp9lZZL0.cn-n1.lcfile.com/Fr5gRilnGPnM3AgQaFMGISO6k3Y0e3zd/icp.png" style="padding:0px;margin:0px;vertical-align:middle;">
+<a href="http://www.beian.gov.cn/"  style="color:#ffffff;padding:0px;margin:0px;vertical-align:middle;" target="_blank">渝ICP备2021011273号-1</a>
+</span>
+<br/>
+<span><!--<img src="/img/icp.png" style="padding:0px;margin:0px;vertical-align:middle;">*--><img src="http://lc-zp9lZZL0.cn-n1.lcfile.com/Fr5gRilnGPnM3AgQaFMGISO6k3Y0e3zd/icp.png" style="padding:0px;margin:0px;vertical-align:middle;">
+<a href="https://beian.mps.gov.cn/#/query/webSearch?code=50022302000776"  style="color:#ffffff;padding:0px;margin:0px;vertical-align:middle;" target="_blank">渝公网安备50022302000776号</a>
+</span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
